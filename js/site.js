@@ -131,7 +131,8 @@ $(document).ready(function () {
 
   $("#displayChallenge").click(function () {
     alert('problems page...');
-    location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#";
+    var username = location.hash.substring(1);
+    location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" + username;
   });
 
 
