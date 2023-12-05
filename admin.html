@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iCanCode</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/site.css" />
+
+    <style>
+        body{
+            background-image: url('http://3.bp.blogspot.com/-9oWS0TFITP4/T6k-8E2_BJI/AAAAAAAACiY/9Qh0zUZBPK4/s1600/Abstract+Blue+Wallpapers.jpg');
+        }
+        textarea{
+            background-color: transparent;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            padding: 10px;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">iCanCode</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="articles.html">Articles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Forum</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto"></ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html" id="signup">Sign out</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="width:100%">
+        <div class="row admin-div">
+            <div class="col-sm-3 text-center">
+                <button class="btn add-challenge" id="addChallenge" style="background-color:rgb(141, 197, 141);color:white">Add
+                    challenge</button>
+            </div>
+            <div class="col-sm-3 text-center">
+                <button class="btn view-challenge" id="viewChallenge" style="background-color:rgb(212, 125, 157);color:white">View
+                    challenge</button>
+            </div>
+            <div class="col-sm-3 text-center">
+                <button class="btn update-challenge" id="updateChallenge" style="background-color:rgb(216, 204, 95);color:white">Update
+                    challenge</button>
+            </div>
+            <div class="col-sm-3 text-center">
+                <button class="btn try-again"
+                    style="background-color:rgb(218, 113, 43);color:white">&nbsp;&nbsp;&nbsp;&nbsp;Clear
+                    all&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <br>
+            </div>
+        </div>
+    
+    <div class="container-admin">
+        <div class="row">
+           <form onsubmit="return validateForm()">
+
+            <div id="errorMessage" class="error-message"></div>
+
+            <div class="col-xl-8">
+                <textarea rows="2" id="shortDescription" cols="150" placeholder="Short description" required></textarea>
+            </div> <br>
+            <div class="col-xl-8">
+                <textarea rows="5" id="longDescription" cols="150" placeholder="Long description" required></textarea>
+            </div> <br>
+            <div class="col-xl-8">
+                <textarea rows="2" id="expectedOutput" cols="150" placeholder="Expected Output" required></textarea>
+            </div>
+            <div class="col-xl-8">
+                <textarea rows="1" id="points" cols="150" placeholder="Points" required></textarea>
+            </div> 
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://my-app07.s3.us-east-1.amazonaws.com/js/amazon-cognito-identity.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://my-app07.s3.us-east-1.amazonaws.com/js/amazon-cognito-identity.min.js"></script>
+   
+
+    
+    <!--<script src="https://my-app07.s3.us-east-1.amazonaws.com/js/site.js"></script>-->
+    <script src="js/site.js"></script>
+</body>
+
+</html>
+

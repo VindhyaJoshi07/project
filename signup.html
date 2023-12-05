@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="css/site.css" />
+    
+    <style>
+        body{
+            background-image: url('https://prmceam.ac.in/wp-content/uploads/2017/05/background-learner1.jpg');
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <a class="navbar-brand" href="#">iCanCode</a>
+    
+        <span class="navbar-toggler-icon"></span>
+    
+    <div class="navbar-brand collapse navbar-collapse navbar-nav nav-item active" id="navbarNav">
+                <a class="nav-link" href="index.html">Home</a>
+            </div>
+    </nav>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <h2 class="card-title text-center" style="color: white;">Register</h2>
+                    <div class="card-body py-md-4">
+                        <form _lpchecked="1">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="username" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" placeholder="Email">
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="password" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="confirm-password"
+                                    placeholder="confirm-password">
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" id="createAccount" class="btn btn-default btn-block btn-primary">Create Account</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+<script src="js/config.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="js/amazon-cognito-identity.min.js"></script>
+<script src="https://my-app07.s3.us-east-1.amazonaws.com/js/site.js"></script>
+</body>
+
+</html>
