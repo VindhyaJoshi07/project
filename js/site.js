@@ -14,9 +14,9 @@ $(document).ready(function () {
     console.log("username.." + username + "..password.." + password + "..email.." + email);
     userPool.signUp(username, password, [email], null, function (err, result) {
       if (err) {
-        alert("Incorrect credentials..");
+        alert("Incorrect credentials")
       } else {
-        
+        console.log("inside success");
         location.href =
           "https://my-app07.s3.us-east-1.amazonaws.com/confirm.html#" +
           username;
@@ -41,7 +41,7 @@ $(document).ready(function () {
           console.log(err);
         } else {
 
-          // create user - entry in points table in dynamodb
+          // create user
         let createAPIUrl = 'https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/users/createuser';
         
         const body = {
@@ -60,17 +60,17 @@ $(document).ready(function () {
       
         fetch(createAPIUrl, requestUserOptions)
           .then((response) => {
-            // console.log("response..." + JSON.stringify(response));
+            console.log("response..." + JSON.stringify(response));
             return response.json();
           })
           .then((data) => {
-            // console.log("Data.." + JSON.stringify(data));
+            console.log("vindya.." + JSON.stringify(data));
             
           location.href =
           "https://my-app07.s3.us-east-1.amazonaws.com/problems.html";
           })
           .catch((error) => {
-            alert("Error occured, unable to load the page:", error);
+            console.error("Error:", error);
           });
         }
       }
@@ -80,13 +80,14 @@ $(document).ready(function () {
   ////--------------------------
   $("#resend").click(function () {
     var username = location.hash.substring(1);
+    console.log("username.." + username);
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser({
       Username: username,
       Pool: userPool,
     });
     cognitoUser.resendConfirmationCode(function (err) {
       if (err) {
-        alert("Error", err);
+        console.log(err);
       }
     });
   });
@@ -95,6 +96,7 @@ $(document).ready(function () {
   $("#login").click(function () {
     
     let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    console.log("inside login");
 
     var username = $("#username").val();
 
@@ -113,6 +115,7 @@ $(document).ready(function () {
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: function () {
+        console.log("Success..");
 
         if (username === 'admin') {
           location.href = "https://my-app07.s3.us-east-1.amazonaws.com/admin.html";
@@ -126,29 +129,30 @@ $(document).ready(function () {
        
       },
       onFailure: function (err) {
-        alert("Invalid credentials..", err);
+        console.log(err);
       },
     });
   });
 
-//------------------------ Display challenges ---------------------------
   $("#displayChallenge").click(function () {
     var username = $("#userName").val();
-    // alert('problems page...'+username);
+    alert('problems page...'+username);
     location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" + username;
   });
 
 
   //// ---------------------- Submit Challenge -----------------------
   $("#submitChallenge").click(function () {
-    //fetch question info ExpectedOutput, question Points.
+    //1.fetch question info ExpectedOutput, question Points.
 
     let currentPoints = '';
     let questionId = $("#questionId").val();
+    
+    // console.log("questionId.." + questionId);
 
     let username = $("#userName").val();
   
-    // console.log("username.."+username);
+    console.log("username.."+username);
     const apiUrl =
       "https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/challenges/getChallengeById/" +
       questionId;
@@ -191,7 +195,7 @@ $(document).ready(function () {
           code: codeArea,
         };
 
-        // console.log("body.." + JSON.stringify(body));
+        console.log("body.." + JSON.stringify(body));
 
         const apiUrl =
           "https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/challenges/execute";
@@ -209,8 +213,9 @@ $(document).ready(function () {
             return response.json();
           })
           .then((data) => {
-            // console.log("Data.." + JSON.stringify(data));
+            console.log("KRish...ata.." + JSON.stringify(data));
             if(data.output.includes('error') || data.output.includes('Error') || data.output.statusCode !== 200) {
+              console.log("inside error..");
               displayErrorMessage(data.output);
             }
             else {
@@ -218,6 +223,8 @@ $(document).ready(function () {
             let programOutput = data.output.split("\n");
             let finalOutput = programOutput[0];
 
+            console.log("programOutput.." + programOutput);
+            console.log("ExpectedOutput.." + ExpectedOutput);
 
             if (finalOutput === ExpectedOutput) {
               window.alert("Yay!! You have earned points");
@@ -226,11 +233,10 @@ $(document).ready(function () {
 
               let displayCalculatedPoints= parseInt($('#pointsValue').text()); 
               displayCalculatedPoints += currentPoints;
-              // console.log('display points... '+displayCalculatedPoints);
+              console.log('display points... '+displayCalculatedPoints);
               $('#pointsValue').html(displayCalculatedPoints);
             
               
-
               // ---------------- points api ------------------
               const pointsUrl =
                 "https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/challenges/updatePoints";
@@ -253,9 +259,11 @@ $(document).ready(function () {
 
               fetch(pointsUrl, requestPointOptions)
                 .then((response) => {
+                  console.log("Response.." + JSON.stringify(response));
                   return response.json();
                 })
                 .then((data) => {
+                  console.log("Data.." + JSON.stringify(data));
                   displayData(finalOutput);  
                 });
             }
@@ -264,10 +272,19 @@ $(document).ready(function () {
         
       })
       .catch((error) => {
-        alert("Error:", error);
+        console.error("Error:", error);
       });
   });
 
+  // Function to show the modal spinner
+function showSpinner() {
+  document.getElementById('myModal').style.display = 'block';
+}
+
+// Function to hide the modal spinner
+function hideSpinner() {
+  document.getElementById('myModal').style.display = 'none';
+}
 
 
   function displayData(programOutput) {
@@ -287,7 +304,7 @@ $(document).ready(function () {
   }
 
 
-  //----------------------------------------------------- Admin APIs -------------------------------------------------------------------
+  //------------------------- Admin API --------------------------
   //------------------------ create challenge --------------------
   $("#addChallenge").click(function () {
     console.log('inside admin function...');
@@ -310,6 +327,7 @@ $(document).ready(function () {
   const adminUrl =
     "https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/challenges/createChallenge";
 
+  console.log("inside adminurl...");
 
   const body = {
 
@@ -340,18 +358,16 @@ $(document).ready(function () {
       $('#points').val('')
     })
     .catch((error) => {
-      alert("Error:", error);
+      console.error("Error:", error);
       errorMessageDiv.innerHTML = 'Error adding challenge. Please try again.';
     });
-  })
+  }
 
-  // ------------------------------ View challenge --------------------------
-  $("#viewChallenge").click(function () {
-    location.href = "problems.html";
-  })
+  )
   
 // --------------------------- Update challenge ---------------------------
 $("#updateChallenge").click(function () {
+  console.log('inside update function...');
   location.href = "update.html";
 
 })
@@ -360,6 +376,8 @@ $("#challengeupdate").click(function (){
 console.log('inside update console.log');
 const updateUrl =
     "https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/challenges/update/";
+
+  console.log("inside update...");
 
   let qid = $('#questionId').val();
   let shortDescription =  $("#shortDescription").val();
@@ -396,7 +414,7 @@ const updateUrl =
       $('#expectedOutput').val('')
       $('#points').val('')
 
-      // console.log('response data...' +data.status);
+      console.log('response data...' +data.status);
       let responseData = JSON.parse(data);
       
 
