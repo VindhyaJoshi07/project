@@ -14,7 +14,7 @@ $(document).ready(function () {
     console.log("username.." + username + "..password.." + password + "..email.." + email);
     userPool.signUp(username, password, [email], null, function (err, result) {
       if (err) {
-        alert("Incorrect credentials")
+        alert("Incorrect credentials");
       } else {
         console.log("inside success");
         location.href =
@@ -41,7 +41,7 @@ $(document).ready(function () {
           console.log(err);
         } else {
 
-          // create user
+          // create user - an entry created in points table in dynamodb
         let createAPIUrl = 'https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/users/createuser';
         
         const body = {
@@ -64,10 +64,11 @@ $(document).ready(function () {
             return response.json();
           })
           .then((data) => {
-            console.log("vindya.." + JSON.stringify(data));
+            console.log("Data" + JSON.stringify(data));
             
           location.href =
-          "https://my-app07.s3.us-east-1.amazonaws.com/problems.html";
+          "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" +
+          username;
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -129,14 +130,14 @@ $(document).ready(function () {
        
       },
       onFailure: function (err) {
-        console.log(err);
+        alert(err);
       },
     });
   });
 
   $("#displayChallenge").click(function () {
     var username = $("#userName").val();
-    alert('problems page...'+username);
+    console.log('problems page...'+username);
     location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" + username;
   });
 
@@ -214,7 +215,9 @@ $(document).ready(function () {
           })
           .then((data) => {
             console.log("KRish...ata.." + JSON.stringify(data));
-            if(data.output.includes('error') || data.output.includes('Error') || data.output.statusCode !== 200) {
+            let statusCode = parseInt(data.statusCode)
+            console.log("statusCode.."+statusCode);
+           if(data.output.includes('error') || data.output.includes('Error') || statusCode !== 200) {
               console.log("inside error..");
               displayErrorMessage(data.output);
             }
@@ -227,14 +230,12 @@ $(document).ready(function () {
             console.log("ExpectedOutput.." + ExpectedOutput);
 
             if (finalOutput === ExpectedOutput) {
-              window.alert("Yay!! You have earned points");
-
-             
-
-              let displayCalculatedPoints= parseInt($('#pointsValue').text()); 
+              let displayCalculatedPoints= $('#pointsValue').text(); 
               displayCalculatedPoints += currentPoints;
               console.log('display points... '+displayCalculatedPoints);
               $('#pointsValue').html(displayCalculatedPoints);
+
+              window.alert("Congratulations!! You have earned points!!");
             
               
               // ---------------- points api ------------------
@@ -276,15 +277,6 @@ $(document).ready(function () {
       });
   });
 
-  // Function to show the modal spinner
-function showSpinner() {
-  document.getElementById('myModal').style.display = 'block';
-}
-
-// Function to hide the modal spinner
-function hideSpinner() {
-  document.getElementById('myModal').style.display = 'none';
-}
 
 
   function displayData(programOutput) {
@@ -304,7 +296,7 @@ function hideSpinner() {
   }
 
 
-  //------------------------- Admin API --------------------------
+  //--------------------------------------------- Admin APIs ------------------------------------------------
   //------------------------ create challenge --------------------
   $("#addChallenge").click(function () {
     console.log('inside admin function...');
@@ -361,9 +353,12 @@ function hideSpinner() {
       console.error("Error:", error);
       errorMessageDiv.innerHTML = 'Error adding challenge. Please try again.';
     });
-  }
+  })
 
-  )
+  // ------------------------ View challenge ------------------------------
+  $("#viewChallenge").click(function (){
+    location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#";
+  });
   
 // --------------------------- Update challenge ---------------------------
 $("#updateChallenge").click(function () {

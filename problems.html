@@ -46,19 +46,19 @@
 
             function fetchPoints() {
               
-              alert("Username.."+username);
+              console.log("Username.."+username);
 
               fetch('https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/getPointsForUser/'+username)
               .then(response => response.json())
               .then(data => {
                 // Display the API response
-                alert("Points data.."+JSON.stringify(data));
+                console.log("Points data.."+JSON.stringify(data));
                 let pointsResponse = JSON.parse(data.body);
-                alert("pointsResponse.."+JSON.stringify(pointsResponse));
+                ("pointsResponse.."+JSON.stringify(pointsResponse));
                 userPoints = pointsResponse.Item.userpoints
                 solvedChallenges = pointsResponse.Item.solvedChallenges
-                alert("solvedChallenges.."+solvedChallenges);
-                alert("userPoints.."+userPoints);
+                console.log("solvedChallenges.."+solvedChallenges);
+                console.log("userPoints.."+userPoints);
 
 
                // const displayPoints = $('#pointsValue');
