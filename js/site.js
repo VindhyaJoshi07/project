@@ -117,9 +117,14 @@ $(document).ready(function () {
       onSuccess: function () {
         console.log("Success..");
 
-        location.href =
+        if (username === 'admin') {
+          location.href = "https://my-app07.s3.us-east-1.amazonaws.com/admin.html";
+
+        }else {
+         location.href =
           "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" +
           username;
+        }
 
        
       },
@@ -130,8 +135,8 @@ $(document).ready(function () {
   });
 
   $("#displayChallenge").click(function () {
-    alert('problems page...');
-    var username = location.hash.substring(1);
+    var username = $("#userName").val();
+    alert('problems page...'+username);
     location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" + username;
   });
 
