@@ -1,0 +1,1 @@
+const CREATE_USER_API_ENDPOINT= "https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/users/createuser";

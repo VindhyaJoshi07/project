@@ -1,145 +1,8 @@
-
-
-$(document).ready(function () {
-  $("#createAccount").click(function () {
-    console.log("inside create Account..");
-    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-    var username = $("#username").val();
-    var password = $("#password").val();
-    var email = new AmazonCognitoIdentity.CognitoUserAttribute({
-      Name: "email",
-      Value: $("#email").val(),
-    });
-
-    console.log("username.." + username + "..password.." + password + "..email.." + email);
-    userPool.signUp(username, password, [email], null, function (err, result) {
-      if (err) {
-        alert("Incorrect credentials");
-      } else {
-        console.log("inside success");
-        location.href =
-          "https://my-app07.s3.us-east-1.amazonaws.com/confirm.html#" +
-          username;
-      }
-    });
-  });
-
-  //--------------------------
-  $("#confirm").click(function () {
-    let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-    var username = location.hash.substring(1);
-    console.log("username.." + username);
-    var cognitoUser = new AmazonCognitoIdentity.CognitoUser({
-      Username: username,
-      Pool: userPool,
-    });
-    cognitoUser.confirmRegistration(
-      $("#code").val(),
-      true,
-      function (err, results) {
-        if (err) {
-          console.log(err);
-        } else {
-
-          // create user - an entry created in points table in dynamodb
-        let createAPIUrl = 'https://5q9x9srwc6.execute-api.us-east-1.amazonaws.com/prod/users/createuser';
-        
-        const body = {
-
-          name: username,
-          solvedChallenges: '',
-          userpoints: ''
-        };
-        const requestUserOptions = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        };
-      
-        fetch(createAPIUrl, requestUserOptions)
-          .then((response) => {
-            console.log("response..." + JSON.stringify(response));
-            return response.json();
-          })
-          .then((data) => {
-            console.log("Data" + JSON.stringify(data));
-            
-          location.href =
-          "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" +
-          username;
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-        }
-      }
-    );
-  });
-
-  ////--------------------------
-  $("#resend").click(function () {
-    var username = location.hash.substring(1);
-    console.log("username.." + username);
-    var cognitoUser = new AmazonCognitoIdentity.CognitoUser({
-      Username: username,
-      Pool: userPool,
-    });
-    cognitoUser.resendConfirmationCode(function (err) {
-      if (err) {
-        console.log(err);
-      }
-    });
-  });
-
-  ////---------------------- Login -------------------------
-  $("#login").click(function () {
-    
-    let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-    console.log("inside login");
-
-    var username = $("#username").val();
-
-    var authenticationData = {
-      Username: username,
-      Password: $("#password").val(),
-    };
-
-    var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
-      authenticationData
-    );
-    var userData = {
-      Username: username,
-      Pool: userPool,
-    };
-    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-    cognitoUser.authenticateUser(authenticationDetails, {
-      onSuccess: function () {
-        console.log("Success..");
-
-        if (username === 'admin') {
-          location.href = "https://my-app07.s3.us-east-1.amazonaws.com/admin.html";
-
-        }else {
-         location.href =
-          "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" +
-          username;
-        }
-
-       
-      },
-      onFailure: function (err) {
-        alert(err);
-      },
-    });
-  });
-
-  $("#displayChallenge").click(function () {
-    var username = $("#userName").val();
-    console.log('problems page...'+username);
-    location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" + username;
-  });
+$("#displayChallenge").click(function () {
+  var username = $("#userName").val();
+  console.log('problems page...'+username);
+  location.href = "https://my-app07.s3.us-east-1.amazonaws.com/problems.html#" + username;
+});
 
 
   //// ---------------------- Submit Challenge -----------------------
@@ -230,7 +93,8 @@ $(document).ready(function () {
             console.log("ExpectedOutput.." + ExpectedOutput);
 
             if (finalOutput === ExpectedOutput) {
-              let displayCalculatedPoints= $('#pointsValue').text(); 
+           
+              let displayCalculatedPoints= parseInt($('#pointsValue').text()); 
               displayCalculatedPoints += currentPoints;
               console.log('display points... '+displayCalculatedPoints);
               $('#pointsValue').html(displayCalculatedPoints);
@@ -427,4 +291,4 @@ const updateUrl =
   
 
 //------------------- global function closure ---------------------
-});
+
